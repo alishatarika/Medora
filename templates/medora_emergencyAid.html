@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated First Aid Videos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .video-card {
+            margin-bottom: 20px;
+            height: 350px; /* uniform height */
+        }
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+        .video-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container my-5">
+    <h2 class="text-center mb-4">🩺 Animated First Aid Videos</h2>
+    <p class="text-center mb-5">Learn life-saving first aid with short, easy-to-follow videos.</p>
+
+    <div class="row" id="videoGallery">
+        <!-- Video Cards will be dynamically added here -->
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const videos = [
+        {title: "Basic Life Support", src: "static/videos/Basic Life Support - Animated.mp4", poster: "static/thumbnails/Screenshot (10).jpg"},
+        {title: "Allergies Prevention", src: "static/videos/Allergies - Animated.mp4", poster: "static/thumbnails/Screenshot (10).jpg"},
+        {title: "Bleeding Control", src: "static/videos/Bleeding - Animated.mp4", poster: "static/thumbnails/Screenshot (10).jpg"},
+        {title: "Choking Help", src: "static/videos/choking.mp4", poster: "static/thumbnails/Screenshot (10).jpg"},
+        {title: "Burn and Scalds Treatment", src: "static/videos/Burns and Scalds - Animated (1).mp4", poster: "static/thumbnails/Screenshot (10).jpg"},
+        {title: "Head Injuries", src: "static/videos/Head Injuries - Animated.mp4", poster: "static/thumbnails/Screenshot (10).jpg"},
+        {title: "Bites and Stings First Aid", src: "static/videos/Bites and Stings - Animated (1).mp4", poster: "static/thumbnails/Screenshot (10).jpg"},
+        {title: "Bone, Muscle and Joint Injuries First Aid", src: "static/videos/Bone, Muscle and Joint Injuries - Animated.mp4", poster: "static/thumbnails/Screenshot (10).jpg"},
+        {title: "Chest Pain Prevention", src: "static/videos/chestpain.mp4", poster: "static/thumbnails/Screenshot (10).jpg"},
+        {title: "Asthma Help", src: "static/videos/Asthma.mp4", poster: "static/thumbnails/Screenshot (10).jpg"}
+    ];
+
+    const gallery = document.getElementById('videoGallery');
+
+    videos.forEach((video) => {
+        const col = document.createElement('div');
+        col.className = "col-md-6 col-lg-4 video-card";
+
+        col.innerHTML = `
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="video-title">${video.title}</h5>
+                    <video controls preload="none" poster="${video.poster}" onplay="pauseOthers(this)">
+                        <source src="${video.src}" type="video/mp4">
+                        Your browser does not support HTML5 video.
+                    </video>
+                </div>
+            </div>
+        `;
+        gallery.appendChild(col);
+    });
+
+    function pauseOthers(currentVideo) {
+        const allVideos = document.querySelectorAll('video');
+        allVideos.forEach(video => {
+            if (video !== currentVideo) video.pause();
+        });
+    }
+</script>
+</body>
+</html>

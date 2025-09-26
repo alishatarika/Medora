@@ -1,0 +1,94 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #121212;
+    color: white;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.navbar-brand {
+    font-family: 'Georgia', serif;
+    color: #00bfae !important;
+}
+.navbar-nav .nav-link {
+    color: white !important;
+}
+.navbar-nav .nav-link:hover {
+    color: #00bfae !important;
+}
+
+/* Feature Block Style */
+.feature-block {
+    background-color: #222;
+    padding: 2rem;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.feature-block:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+.feature-block i {
+    color: #00bfae;
+}
+.feature-block h5 {
+    margin-top: 1rem;
+    font-size: 1.25rem;
+}
+.feature-block p {
+    margin-top: 0.5rem;
+    color: #ccc;
+}
+
+/* Reels & Advertisement */
+.reel {
+    background-color: #222;
+    padding: 1rem;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.reel:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+.reel video {
+    border-radius: 10px;
+}
+
+/* Section Titles */
+h4 {
+    font-size: 1.75rem;
+    color: #00bfae;
+    font-weight: bold;
+}
+
+/* Footer */
+footer {
+    background-color: #000;
+    color: #ccc;
+    padding: 1rem 0;
+}
+
+/* Media Queries for Mobile Responsiveness */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+    .feature-block {
+        padding: 1.5rem;
+    }
+    .reel video {
+        width: 100%;
+    }
+}

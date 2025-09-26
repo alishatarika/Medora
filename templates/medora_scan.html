@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner - Medora</title>
+
+    <!-- Link to the scanner.css file -->
+    <style>
+        /* General reset and body styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Particle Animation Background */
+        #particles-js {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #121212;
+            z-index: -1;
+        }
+
+        /* Container for the QR scanner */
+        #scanner-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #1c1c1c;
+            border-radius: 15px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s ease-in-out;
+            border: 2px solid #00bcd4;
+            background: #333;
+        }
+
+        #scanner-container:hover {
+            transform: scale(1.05);
+        }
+
+        /* Inside the QR Reader - Real-time Animation */
+        #qr-reader {
+            width: 100%;
+            height: 400px;
+            background-color: #2e2e2e;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #00bcd4;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Title and instructions */
+        h1 {
+            font-size: 28px;
+            color: #00bcd4;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .instructions {
+            font-size: 16px;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        /* Toggle Switch for Scan */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 50px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            border-radius: 50px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+        }
+
+        input:checked + .slider {
+            background-color: #00bcd4;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Footer */
+        .footer {
+            font-size: 14px;
+            color: #999;
+            margin-top: 20px;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: #00bcd4;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #0288d1;
+        }
+    </style>
+
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script> <!-- Particle.js Library -->
+</head>
+<body>
+
+    <!-- Particle Animation Background -->
+    <div id="particles-js"></div>
+
+    <!-- Scanner Container -->
+    <div id="scanner-container">
+        <h1><i class="fas fa-qrcode"></i> QR Code Scanner</h1>
+        <p class="instructions">Toggle to start scanning QR Code!</p>
+
+        <!-- QR Code Scanner Display -->
+        <div id="qr-reader"></div>
+
+        <!-- Toggle Switch -->
+        <label class="switch">
+            <input type="checkbox" id="start-scan-toggle">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <script>
+        // Define scan success and failure callback functions
+        let onScanSuccess = function(text, result) {
+            console.log("QR Code scanned successfully:", text, result);
+            if (text) {
+                // Redirect to the scanned URL after a short delay
+                setTimeout(function() {
+                    window.location.href = text; // Redirect to the scanned URL
+                }, 2000); // 2000 milliseconds = 2 seconds delay
+            }
+        };
+
+        let onScanFailure = function(error) {
+            console.log("Scan failure:", error);
+        };
+
+        // Initialize HTML5 QR Code scanner
+        let html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {
+            fps: 10, // Frames per second
+            qrbox: { width: 500, height: 500 } // QR box size for scanning
+        }, true); // verbose: true for better debugging
+
+        // Render the scanner
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+        // Trigger scan start/stop based on toggle switch
+        document.getElementById("start-scan-toggle").addEventListener("change", function() {
+            if (this.checked) {
+                html5QrcodeScanner.start();
+            } else {
+                html5QrcodeScanner.stop(); // Stop scanning
+            }
+        });
+
+        // Initialize Particle.js for background animation
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 100,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#00bcd4"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#00bcd4",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "window",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
+
+</body>
+</html>
