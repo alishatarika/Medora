@@ -9,23 +9,24 @@
     <h2 class="text-teal mb-3">💊 Online Pharmacy</h2>
 
     <!-- Search input -->
-    <input id="searchInput" class="form-control mb-4" type="text" placeholder="Search medicines..." value="{{query}}">
+    <input id="searchInput" class="form-control mb-4" type="text" placeholder="Search medicines..." value="{{ query }}">
 
     <table class="table table-dark table-striped" id="medTable">
         <thead>
             <tr>
-                <th>Name</th><th>Category</th><th>Company</th><th>Price</th><th>Action</th>
+                <th>Name</th><th>Category</th><th>Company</th><th>Price</th><th>Description</th><th>Action</th>
             </tr>
         </thead>
         <tbody>
         {% for med in medicines %}
             <tr>
-                <td>{{med[1]}}</td>
-                <td>{{med[2]}}</td>
-                <td>{{med[3]}}</td>
-                <td>₹{{med[4]}}</td>
+                <td>{{ med['name'] }}</td>
+                <td>{{ med['category'] }}</td>
+                <td>{{ med['company'] }}</td>
+                <td>₹{{ med['price'] }}</td>
+                <td>{{ med['description'] }}</td>
                 <td>
-                    <a href="{{ url_for('add_to_cart', med_id=med[0]) }}" class="btn btn-sm btn-primary">Add to Cart</a>
+                    <a href="{{ url_for('add_to_cart', med_id=med['id']) }}" class="btn btn-sm btn-primary">Add to Cart</a>
                 </td>
             </tr>
         {% endfor %}
@@ -54,6 +55,7 @@ searchInput.addEventListener("input", function() {
                     <td>${med.category}</td>
                     <td>${med.company}</td>
                     <td>₹${med.price}</td>
+                    <td>${med.description}</td>
                     <td>
                         <a href="/add_to_cart/${med.id}" class="btn btn-sm btn-primary">Add to Cart</a>
                     </td>

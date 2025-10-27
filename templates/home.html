@@ -1,129 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medora Health App</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='medora_first.css') }}">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medora Health App</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='medora_first.css') }}">
+  <style>
+    body { background-color: #121212; color: #fff; }
+    .navbar-brand { color: #14b8a6 !important; }
+    .btn-teal { background-color: #14b8a6; color: #fff; }
+    .btn-teal:hover { background-color: #0f766e; }
+    .feature-block { transition: transform 0.2s, box-shadow 0.2s; }
+    .feature-block:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+    .reel video { border-radius: 10px; }
+    .about-teaser { background-color: #1f1f1f; border-radius: 10px; padding: 2rem; }
+    .about-teaser a { text-decoration: none; }
+  </style>
 </head>
 <body>
 
-<!-- Navigation Bar -->
+
+
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
-    <div class="container-fluid">
-        <a class="navbar-brand text-teal fw-bold fs-3" href="{{ url_for('home') }}">Medora</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav align-items-center">
-                <li class="nav-item mx-2">
-                    <a class="nav-link active" href="{{ url_for('home') }}"><i class="fas fa-home me-1"></i>Home</a>
-                </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link" href="#"><i class="fas fa-info-circle me-1"></i>About</a>
-                </li>
-                <li class="nav-item mx-2">
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-teal" type="submit"><i class="fas fa-search"></i></button>
-                    </form>
-                </li>
-            </ul>
-        </div>
+  <div class="container-fluid">
+    <!-- Brand -->
+    <a class="navbar-brand text-gradient fw-bold fs-3" href="{{ url_for('home') }}">
+      Medora
+    </a>
+
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Nav Links -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav align-items-center">
+        <!-- About -->
+        <li class="nav-item mx-2">
+          <a class="nav-link glow-btn" href="{{ url_for('about') }}">
+            <i class="fas fa-info-circle me-1"></i> About
+          </a>
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>
 
-<!-- Main Content -->
-<main class="container my-5">
-    <section class="row g-4">
-        <div class="col-md-4">
-            <div class="feature-block bg-black text-white text-center p-4 rounded shadow-sm" 
-                 onclick="window.location.href='{{ url_for('scan') }}'" style="cursor: pointer;">
-                <i class="fas fa-qrcode fa-3x mb-3 text-teal"></i>
-                <h5>QR Scanner</h5>
-                <p>Scan health-related QR codes seamlessly.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="feature-block bg-black text-white text-center p-4 rounded shadow-sm"
-                 onclick="window.location.href='{{ url_for('sos') }}'" style="cursor: pointer;">
-                <i class="fas fa-bell fa-3x mb-3 text-teal"></i>
-                <h5>SOS</h5>
-                <p>Quickly send emergency alerts when needed.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="feature-block bg-black text-white text-center p-4 rounded shadow-sm"onclick="window.location.href='{{ url_for('firstaid') }}'" style="cursor: pointer;">
-                <i class="fas fa-briefcase-medical fa-3x mb-3 text-teal"></i>
-                <h5>First Aid Guide</h5>
-                <p>Learn life-saving first aid with short videos</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="feature-block bg-black text-white text-center p-4 rounded shadow-sm"
-                 onclick="window.location.href='{{ url_for('shop_medicine') }}'" style="cursor: pointer;">
-                <i class="fas fa-pills fa-3x mb-3 text-teal"></i>
-                <h5>Shop Medicine</h5>
-                <p>Order medicines online with ease.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="feature-block bg-black text-white text-center p-4 rounded shadow-sm"
-                 onclick="window.location.href='{{ url_for('chatbot') }}'" style="cursor: pointer;">
-                <i class="fas fa-robot fa-3x mb-3 text-teal"></i>
-                <h5>AI Chatbot</h5>
-                <p>Get instant answers to health queries.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="feature-block bg-black text-white text-center p-4 rounded shadow-sm"
-                 onclick="window.location.href='{{ url_for('doctors') }}'" style="cursor: pointer;">
-                <i class="fas fa-user-md fa-3x mb-3 text-teal"></i>
-                <h5>Doctor Consultancy</h5>
-                <p>Consult with certified doctors online.</p>
-            </div>
-        </div>
-    </section>
+<!-- Navbar CSS -->
+<style>
+/* Gradient Brand */
+.text-gradient {
+  background: linear-gradient(90deg, #00ffff, #14b8a6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-    <!-- Health Reels Section -->
-    <section class="mt-5">
-        <h4 class="text-center text-teal mb-4">Health Reels & Advertisements</h4>
-        <div class="row g-4">
-            <div class="col-md-6">
-                <div class="reel bg-black text-white p-3 rounded shadow-sm">
-                    <video class="w-100 rounded" controls>
-                        <source src="{{ url_for('static', filename='videos/drinking water benefits.mp4') }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <p class="mt-2">Stay hydrated! Learn the benefits of drinking water.</p>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="reel bg-black text-white p-3 rounded shadow-sm">
-                    <video class="w-100 rounded" controls>
-                        <source src="{{ url_for('static', filename='videos/health tip.mp4') }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <p class="mt-2">Types of Workout - Why is it important to workout?</p>
-                </div>
-            </div>
+/* Glowing Nav Links */
+.glow-btn {
+  color: #00e6e6;
+  font-weight: 500;
+  text-shadow: 0 0 5px #00ffff;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.glow-btn::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  left: 0;
+  bottom: -3px;
+  background: #00ffff;
+  transition: 0.3s;
+}
+
+.glow-btn:hover::after {
+  width: 100%;
+}
+
+.glow-btn:hover {
+  color: #00ffff;
+  text-shadow: 0 0 15px #00ffff, 0 0 30px #14b8a6;
+}
+</style>
+
+
+       
+<!-- Navbar CSS -->
+<style>
+.text-teal {
+  color: #14b8a6 !important;
+}
+
+.glow-btn {
+  color: #00e6e6;
+  font-weight: 500;
+  text-shadow: 0 0 5px #00ffff;
+  transition: all 0.3s ease-in-out;
+}
+
+.glow-btn:hover {
+  color: #00ffff;
+  text-shadow: 0 0 15px #00ffff, 0 0 30px #14b8a6;
+}
+
+.btn-teal {
+  background-color: #14b8a6;
+  color: #000;
+  border-radius: 0.5rem;
+  transition: 0.3s;
+}
+
+.btn-teal:hover {
+  background-color: #00e6e6;
+  color: #000;
+}
+</style>
+
+
+<!-- Hero Section -->
+<section class="text-center my-5">
+  <h1 class="fw-bold text-teal mb-3">Welcome to Medora</h1>
+  <p class="lead">Your all-in-one digital healthcare companion. Scan, consult, shop, and stay informed with ease.</p>
+</section>
+
+<!-- Features Section -->
+<main class="container my-5">
+  <section class="row g-4">
+    <div class="col-md-4">
+      <div class="feature-block bg-black text-center p-4 rounded shadow-sm" onclick="window.location.href='{{ url_for('scan') }}'" style="cursor:pointer;">
+        <i class="fas fa-qrcode fa-3x mb-3 text-teal"></i>
+        <h5>QR Scanner</h5>
+        <p>Scan health-related QR codes seamlessly.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-block bg-black text-center p-4 rounded shadow-sm" onclick="window.location.href='{{ url_for('sos_page') }}'" style="cursor:pointer;">
+        <i class="fas fa-bell fa-3x mb-3 text-teal"></i>
+        <h5>SOS Alerts</h5>
+        <p>Send emergency alerts instantly.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-block bg-black text-center p-4 rounded shadow-sm" onclick="window.location.href='{{ url_for('firstaid') }}'" style="cursor:pointer;">
+        <i class="fas fa-briefcase-medical fa-3x mb-3 text-teal"></i>
+        <h5>First Aid Guide</h5>
+        <p>Learn life-saving first aid with videos.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-block bg-black text-center p-4 rounded shadow-sm" onclick="window.location.href='{{ url_for('shop_medicine') }}'" style="cursor:pointer;">
+        <i class="fas fa-pills fa-3x mb-3 text-teal"></i>
+        <h5>Shop Medicine</h5>
+        <p>Order medicines online with ease.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-block bg-black text-center p-4 rounded shadow-sm" onclick="window.location.href='{{ url_for('chatbot') }}'" style="cursor:pointer;">
+        <i class="fas fa-robot fa-3x mb-3 text-teal"></i>
+        <h5>AI Chatbot</h5>
+        <p>Get instant answers to health queries.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-block bg-black text-center p-4 rounded shadow-sm" onclick="window.location.href='{{ url_for('doctors') }}'" style="cursor:pointer;">
+        <i class="fas fa-user-md fa-3x mb-3 text-teal"></i>
+        <h5>Doctor Consultancy</h5>
+        <p>Consult certified doctors online.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Health Reels -->
+  <section class="mt-5">
+    <h4 class="text-center text-teal mb-4">Health Reels & Tips</h4>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="reel bg-black text-white p-3 rounded shadow-sm">
+          <video class="w-100 rounded" controls>
+            <source src="{{ url_for('static', filename='videos/drinking water benefits.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="mt-2">Stay hydrated! Learn the benefits of drinking water.</p>
         </div>
-    </section>
+      </div>
+      <div class="col-md-6">
+        <div class="reel bg-black text-white p-3 rounded shadow-sm">
+          <video class="w-100 rounded" controls>
+            <source src="{{ url_for('static', filename='videos/health tip.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <p class="mt-2">Types of Workout - Why is it important to workout?</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <!-- Footer -->
-<footer class="bg-dark text-center text-white py-3">
-    <p class="mb-0">&copy; 2025 Medora Health App. All rights reserved.</p>
+<footer class="bg-dark text-center text-white py-3 mt-5">
+  <p class="mb-0">&copy; 2025 Medora Health App. All rights reserved.</p>
 </footer>
 
 <!-- Scripts -->
@@ -133,17 +218,19 @@
 
 <!-- Play One Video at a Time -->
 <script>
-    const videos = document.querySelectorAll("video");
+const videos = document.querySelectorAll("video");
+videos.forEach(video => {
+  video.addEventListener("play", () => {
+    videos.forEach(v => { if(v!==video) v.pause(); });
+  });
+});
+<!-- 🚨 SOS Button -->
+<form action="/sos" method="get" onsubmit="return confirm('Are you sure you want to send an SOS alert?');">
+    <button type="submit" class="btn btn-danger btn-lg shadow" style="font-size:20px; padding:10px 25px; border-radius:12px;">
+        🚨 Send SOS Alert
+    </button>
+</form>
 
-    videos.forEach(video => {
-        video.addEventListener("play", () => {
-            videos.forEach(v => {
-                if (v !== video) {
-                    v.pause();
-                }
-            });
-        });
-    });
 </script>
 
 </body>

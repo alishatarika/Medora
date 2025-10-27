@@ -8,24 +8,34 @@
 <div class="container my-4">
     <h2 class="text-info mb-3">👨‍⚕️ Online Doctor Consultancy</h2>
 
+    <!-- Search input -->
     <input id="searchInput" class="form-control mb-4" type="text" placeholder="Search doctors..." value="{{ query }}">
 
+    <!-- Doctors table -->
     <table class="table table-dark table-striped" id="docTable">
         <thead>
             <tr>
-                <th>Name</th><th>Specialty</th><th>Location</th>
-                <th>Experience</th><th>Fees</th><th>Action</th>
+                <th>Name</th>
+                <th>Specialty</th>
+                <th>Location</th>
+                <th>Experience</th>
+                <th>Fees</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
         {% for doc in doctors %}
             <tr>
-                <td>{{ doc[1] }}</td>
-                <td>{{ doc[2] }}</td>
-                <td>{{ doc[3] }}</td>
-                <td>{{ doc[4] }} yrs</td>
-                <td>₹{{ doc[5] }}</td>
-                <td><a href="{{ url_for('doctor_profile', doc_id=doc[0]) }}" class="btn btn-sm btn-info">View & Book</a></td>
+                <td><strong>{{ doc['name'] }}</strong><br>
+                    <small class="text-muted">{{ doc['description'][:100] }}{% if doc['description']|length > 100 %}...{% endif %}</small>
+                </td>
+                <td>{{ doc['specialty'] }}</td>
+                <td>{{ doc['location'] }}</td>
+                <td>{{ doc['experience'] }} yrs</td>
+                <td>₹{{ doc['fees'] }}</td>
+                <td>
+                    <a href="{{ url_for('doctor_profile', doc_id=doc['id']) }}" class="btn btn-sm btn-info">View & Book</a>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
@@ -38,6 +48,7 @@
 const searchInput = document.getElementById("searchInput");
 const tableBody = document.querySelector("#docTable tbody");
 
+// Live search AJAX
 searchInput.addEventListener("input", function() {
     const query = this.value.trim();
 
@@ -46,10 +57,9 @@ searchInput.addEventListener("input", function() {
     })
     .then(response => response.text())
     .then(rows => {
-        tableBody.innerHTML = rows; // Server already returns <tr> rows
+        tableBody.innerHTML = rows; // Server returns <tr> rows
     });
 });
 </script>
-
 </body>
 </html>

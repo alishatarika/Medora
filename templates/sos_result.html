@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medora SOS Alert</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body { background-color: #121212; color: #fff; }
+    .navbar-brand { color: #14b8a6 !important; }
+    .btn-teal { background-color: #14b8a6; color: #fff; }
+    .btn-teal:hover { background-color: #0f766e; }
+    .feature-block { transition: transform 0.2s, box-shadow 0.2s; }
+    .feature-block:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+    .status-msg { font-size: 1.2rem; margin-top: 20px; font-weight: bold; }
+    .sos-btn {
+      font-size: 2rem; 
+      padding: 20px 40px; 
+      border-radius: 15px; 
+      background-color: #ff3b3b; 
+      color: #fff; 
+      border: none; 
+      box-shadow: 0 0 20px rgba(255,59,59,0.6);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .sos-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(255,59,59,0.8);
+      cursor: pointer;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+  <div class="container-fluid">
+    <a class="navbar-brand text-gradient fw-bold fs-3" href="{{ url_for('home') }}">Medora</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="text-center my-5">
+  <h1 class="fw-bold text-teal mb-3">🚨 Emergency SOS Alert</h1>
+
+  <!-- SOS Button -->
+  <button id="sosBtn" class="sos-btn">🚨 Send SOS</button>
+  <div id="status" class="status-msg"></div>
+</section>
+
+
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+$("#sosBtn").click(function() {
+    if(navigator.geolocation) {
+        $("#status").text("📍 Getting your location...");
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const locationText = `https://www.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`;
+
+            $.ajax({
+                url: "/send_sos",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ location: locationText }),
+                success: function(response) {
+                    if(response.status === "success") {
+                        $("#status").text("✅ SOS alert sent successfully!");
+                    } else {
+                        $("#status").text("⚠️ Error sending SOS.");
+                    }
+                },
+                error: function() {
+                    $("#status").text("⚠️ Failed to send SOS. Try again.");
+                }
+            });
+
+        }, function(error) {
+            $("#status").text("⚠️ Unable to get location. Please allow location access.");
+        });
+    } else {
+        $("#status").text("⚠️ Geolocation not supported by your browser.");
+    }
+});
+</script>
+
+</body>
+</html>

@@ -40,7 +40,7 @@
             </tbody>
         </table>
         <h4>Total: ₹<span id="total">{{ total }}</span></h4>
-        <a href="{{ url_for('checkout') }}" class="btn btn-success mt-3">✅ Checkout</a>
+        <a href="{{ url_for('checkout') }}" class="btn btn-success mt-3">✅ Place Order</a>
         <a href="{{ url_for('shop_medicine') }}" class="btn btn-secondary mt-3">⬅ Add More Medicines</a>
     {% else %}
         <p>Your cart is empty.</p>
@@ -48,47 +48,5 @@
     {% endif %}
 </div>
 
-<script>
-$(document).ready(function(){
-    function updateCart(med_id, action, quantity=1){
-        $.get("/update_cart_ajax", {med_id: med_id, action: action, quantity: quantity}, function(data){
-            if(data.status === "success"){
-                location.reload();
-            }
-        });
-    }
-
-    $(".increase").click(function(){
-        let row = $(this).closest("tr");
-        let med_id = row.data("med-id");
-        let qty_input = row.find(".quantity");
-        let new_qty = parseInt(qty_input.val()) + 1;
-        updateCart(med_id, "update", new_qty);
-    });
-
-    $(".decrease").click(function(){
-        let row = $(this).closest("tr");
-        let med_id = row.data("med-id");
-        let qty_input = row.find(".quantity");
-        let new_qty = parseInt(qty_input.val()) - 1;
-        if(new_qty < 1) new_qty = 0;
-        updateCart(med_id, "update", new_qty);
-    });
-
-    $(".quantity").change(function(){
-        let row = $(this).closest("tr");
-        let med_id = row.data("med-id");
-        let new_qty = parseInt($(this).val());
-        if(new_qty < 0) new_qty = 0;
-        updateCart(med_id, "update", new_qty);
-    });
-
-    $(".remove").click(function(){
-        let row = $(this).closest("tr");
-        let med_id = row.data("med-id");
-        updateCart(med_id, "remove");
-    });
-});
-</script>
 </body>
 </html>
