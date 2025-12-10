@@ -5,6 +5,10 @@ import csv
 import os
 import smtplib
 from email.mime.text import MIMEText
+from google.oauth2 import service_account
+from google.cloud import aiplatform
+import requests
+import json
 
 app = Flask(__name__)
 app.secret_key = "medora_secret_key"
@@ -90,6 +94,68 @@ def chatbot():
 @app.route("/firstaid")
 def firstaid():
     return render_template("medora_emergencyAid.html")
+# ---------------- AI Chatbot ----------------
+model = "models/gemini-2.5-flash"
+
+API_KEY = "AIzaSyDkWCeH8rNdZ7L0-4i83K5464ubzzYtGCU"
+
+# ---- Function to get AI response ----
+def generate_google_ai_response(prompt):
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIzaSyDkWCeH8rNdZ7L0-4i83K5464ubzzYtGCU"
+
+    payload = {
+        "contents": [
+            {"parts": [{"text": prompt}]}
+        ]
+    }
+
+    headers = {"Content-Type": "application/json"}
+
+    try:
+        response = requests.post(url, headers=headers, json=payload)
+
+        if response.status_code != 200:
+            return f"⚠️ API Error {response.status_code}:\n{response.text}"
+
+        data = response.json()
+
+        return (
+            data.get("candidates", [{}])[0]
+            .get("content", {})
+            .get("parts", [{}])[0]
+            .get("text", "⚠️ No response from AI")
+        )
+
+    except Exception as e:
+        return f"❌ Error contacting AI service: {e}"
+
+
+
+# ---- Web UI Route ----
+@app.route("/chatbot", methods=["GET", "POST"])
+def chatbot_page():
+    response_text = ""
+    user_input = ""
+
+    if request.method == "POST":
+        user_input = request.form.get("query", "")
+        if user_input:
+            response_text = generate_google_ai_response(user_input)
+
+    return render_template("medora_aichatbot.html", response=response_text, user_input=user_input)
+
+
+# ---- AJAX Route ----
+@app.route("/chatbot_ajax", methods=["POST"])
+def chatbot_ajax():
+    data = request.json
+    query = data.get("query", "")
+
+    if not query:
+        return jsonify({"response": "⚠️ Please type something."})
+
+    ai_response = generate_google_ai_response(query)
+    return jsonify({"response": ai_response})
 
 # ---------------- Shop ----------------
 @app.route("/shop")
@@ -107,6 +173,25 @@ def shop_medicine():
     cursor.close()
     conn.close()
     return render_template("shop.html", medicines=medicines, query=query)
+@app.route("/shop_ajax")
+def shop_ajax():
+    query = request.args.get("query", "")
+    conn = get_mysql_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    if query:
+        cursor.execute("""SELECT * FROM medicines
+                          WHERE name LIKE %s OR category LIKE %s OR company LIKE %s""",
+                       ('%' + query + '%', '%' + query + '%', '%' + query + '%'))
+    else:
+        cursor.execute("SELECT * FROM medicines LIMIT 50")
+
+    medicines = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    return jsonify(medicines)
+
 
 @app.route("/add_to_cart/<int:med_id>")
 def add_to_cart(med_id):
