@@ -1,0 +1,157 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #121212;
+  color: white;
+}
+
+/* Gradient brand */
+.text-gradient {
+  background: linear-gradient(90deg, #00ffff, #14b8a6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-teal { color: #14b8a6 !important; }
+
+/* Navbar */
+.navbar { background-color: #000 !important; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+.navbar-brand { font-family: 'Georgia', serif; color: #00bfae !important; }
+.navbar-nav .nav-link { color: white !important; }
+.navbar-nav .nav-link:hover { color: #00bfae !important; }
+
+.glow-btn {
+  color: #00e6e6;
+  font-weight: 500;
+  text-shadow: 0 0 5px #00ffff;
+  transition: all 0.3s ease-in-out;
+}
+.glow-btn:hover {
+  color: #00ffff !important;
+  text-shadow: 0 0 15px #00ffff, 0 0 30px #14b8a6;
+}
+
+/* Feature blocks */
+.feature-block {
+  background-color: #222;
+  padding: 2rem;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.feature-block:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+.feature-block i { color: #00bfae; }
+.feature-block h5 { margin-top: 1rem; font-size: 1.25rem; }
+.feature-block p  { margin-top: 0.5rem; color: #ccc; }
+
+/* Reels */
+.reel {
+  background-color: #222;
+  padding: 1rem;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.reel:hover { transform: scale(1.02); box-shadow: 0 8px 15px rgba(0,0,0,0.3); }
+.reel video { border-radius: 10px; }
+
+/* Teal button */
+.btn-teal {
+  background-color: #14b8a6;
+  color: #000;
+  border-radius: 0.5rem;
+  transition: 0.3s;
+}
+.btn-teal:hover { background-color: #00e6e6; color: #000; }
+
+/* Feature cards (about page) */
+.feature-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+/* SOS button */
+.sos-btn {
+  font-size: 2rem;
+  padding: 20px 40px;
+  border-radius: 15px;
+  background-color: #ff3b3b;
+  color: #fff;
+  border: none;
+  box-shadow: 0 0 20px rgba(255,59,59,0.6);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.sos-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255,59,59,0.8);
+  cursor: pointer;
+}
+
+/* Chatbot */
+.chat-container {
+  background: rgba(30,30,30,0.9);
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0,255,200,0.2);
+  padding: 40px;
+  width: 500px;
+  max-width: 95%;
+  border: 1px solid rgba(20,184,166,0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.chat-message.user {
+  align-self: flex-end;
+  background: rgba(20,184,166,0.2);
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: #fff;
+  max-width: 80%;
+}
+.chat-message.bot {
+  align-self: flex-start;
+  background: rgba(20,184,166,0.1);
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: #b9fff4;
+  max-width: 80%;
+}
+
+/* QR Scanner */
+#scanner-container {
+  width: 90%;
+  max-width: 600px;
+  border: 2px solid #00bcd4;
+  padding: 20px;
+  border-radius: 10px;
+  background: #222;
+  text-align: center;
+}
+#qr-reader {
+  width: 100%;
+  min-height: 300px;
+  border: 2px solid #00bcd4;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+/* Footer */
+footer { background-color: #000; color: #ccc; padding: 1rem 0; }
+
+@media (max-width: 768px) {
+  .navbar-brand { font-size: 1.5rem; }
+  .feature-block { padding: 1.5rem; }
+}
